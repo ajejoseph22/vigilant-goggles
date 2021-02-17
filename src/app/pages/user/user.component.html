@@ -5,17 +5,18 @@
   <span style="font-weight: normal; font-size: 17px;">Your profile</span>
 </header>
 
+<!--User Interest introductory description-->
+
 <!--User Interest selection content-->
 <section class="content">
-    <div style="display: none;">
-      <span>8. Your interests?</span>
-      <br />
-      <span>Select up to 6 options that apply.</span>
-    </div>
-    <div *ngFor="let item of interestsData" class="interest">
-      {{ item.title }}
-    </div>
-
+  <div style="display: none;">
+    <span>8. Your interests?</span>
+    <br />
+    <span>Select up to 6 options that apply.</span>
+  </div>
+  <div *ngFor="let item of interestsData" class="interest">
+    {{ item.title }}
+  </div>
 </section>
 
 <!--User Interest selection footer-->
