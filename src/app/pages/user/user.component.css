@@ -1,0 +1,39 @@
+:host {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
+
+.header {
+  padding: 40px;
+  background: #031529;
+  color: #fff;
+  text-align: center;
+  font-weight: 900;
+  font-size: x-large;
+  flex: 0 0 auto;
+}
+
+.content {
+  background: #fff;
+  margin: 0 13%;
+  flex: 1 1 auto;
+  overflow-x: auto;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
+.footer {
+  background: aliceblue;
+  flex: 0 0 150px;
+}
+
+.interest {
+  background: pink;
+  height: 150px;
+  width: 150px;
+  margin: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
