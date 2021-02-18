@@ -36,4 +36,9 @@
   margin: 10px;
   border-radius: 5px;
   cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.interest:hover {
+  transform: scale(1.1);
 }
