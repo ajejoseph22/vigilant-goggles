@@ -16,18 +16,6 @@ import {
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss'],
-  animations: [
-    trigger('easeIn', [
-      transition(':enter', [
-        style({ opacity: 0 }),
-        animate('1s  ease-in-out', style({ opacity: 1 })),
-      ]),
-      transition(':leave', [
-        style({ opacity: 1 }),
-        animate('0.3s  ease-in-out', style({ opacity: 0 })),
-      ]),
-    ]),
-  ],
 })
 export class UserComponent implements OnInit {
   public interestsData: Interests = {

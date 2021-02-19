@@ -9,7 +9,7 @@
 <ng-template [ngIf]="interestsPage === 1">
   <!-- todo: User Interest introductory description-->
   <!--User Interest selection content-->
-  <section [@easeIn] class="content" id="page-1">
+  <section  class="content" id="page-1">
     <div class="interest-wrapper" *ngFor="let id of object.keys(interestsData)">
       <div
         [ngClass]="{
@@ -29,8 +29,9 @@
   </section>
 </ng-template>
 
+<!--Page 2-->
 <ng-template [ngIf]="interestsPage === 2">
-  <div id="page-2" class="content" [@easeIn]>
+  <div id="page-2" class="content" >
     <nz-collapse nzGhost>
       <nz-collapse-panel
         class="interest-item"
@@ -85,6 +86,13 @@
         </nz-collapse-panel>
       </nz-collapse-panel>
     </nz-collapse>
+  </div>
+</ng-template>
+
+<!--Page 3 (display)-->
+<ng-template [ngIf]="interestsPage === 3">
+  <div class="content">
+    Open the console to view the user's data
   </div>
 </ng-template>
 
