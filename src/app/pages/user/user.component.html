@@ -2,30 +2,56 @@
 <header class="header">
   You on Movemeback
   <br />
-  <span style="font-weight: normal; font-size: 17px;">Your profile</span>
+  <span>Your profile</span>
 </header>
 
-<!--User Interest introductory description-->
-
-<!--User Interest selection content-->
-<section class="content">
-  <div class="interest-wrapper" *ngFor="let item of interestsData">
-    <div
-      [ngClass]="{
-        interest: true,
-        selected: selectedInterests.hasOwnProperty(item.id)
-      }"
-      (click)="handleClick(item.id)"
-    >
-      <div class="interest-text">
-        <img [alt]="item.title" [src]="item.image" />{{ item.title }}
+<!--Page 1-->
+<ng-template [ngIf]="interestsPage === 1">
+  <!--User Interest introductory description-->
+  <!--User Interest selection content-->
+  <section [@easeIn] class="content" id="page-1">
+    <div class="interest-wrapper" *ngFor="let id of object.keys(interestsData)">
+      <div
+        [ngClass]="{
+          interest: true,
+          selected: selectedInterests.hasOwnProperty(id)
+        }"
+        (click)="handleClickInterest(id)"
+      >
+        <div class="interest-text">
+          <img
+            [alt]="interestsData[id]?.title"
+            [src]="interestsData[id]?.image"
+          />{{ interestsData[id]?.title }}
+        </div>
       </div>
     </div>
+  </section>
+</ng-template>
+
+<ng-template [ngIf]="interestsPage === 2">
+  <div id="page-2" class="content" [@easeIn]>
+    <div
+      class="interest-item"
+      *ngFor="let interestId of object.keys(selectedInterests)"
+    >
+      <header class="interest-header">{{ interestsData[interestId]?.title }}</header>
+      <label
+        class="sub-interest-item"
+        nz-checkbox
+        *ngFor="
+          let subItemId of object.keys(interestsData[interestId]?.subInterests)
+        "
+        [ngModel]="selectedSubInterests.hasOwnProperty(subItemId)"
+        (ngModelChange)="handleOnToggleSubInterest(subItemId)"
+        >{{ interestsData[interestId].subInterests[subItemId].title }}</label
+      >
+    </div>
   </div>
-</section>
+</ng-template>
 
 <!--User Interest selection footer-->
 <div class="footer">
-  <button id="next">Next</button>
-  <button id="back">Back</button>
+  <button id="next" (click)="handleOnClickNext()">Next</button>
+  <button id="back" (click)="handleOnClickBack()">Back</button>
 </div>

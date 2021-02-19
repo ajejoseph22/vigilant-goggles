@@ -1,17 +1,28 @@
-export interface Interest {
-  id: string;
+export interface InterestItem {
   image: string;
   title: string;
-  subInterests: SubInterest[];
+  subInterests: SubInterests;
 }
 
-export interface SubInterest {
-  id: string;
-  title: string;
-  subInterests: SubSubInterest[];
+export interface Interests {
+  [id: string]: InterestItem;
 }
 
-export interface SubSubInterest {
-  id: string;
+export interface SubInterestItem {
+  image: string;
   title: string;
+  subInterests: SubSubInterests;
+}
+
+export interface SubInterests {
+  [id: string]: SubInterestItem;
+}
+
+export interface SubSubInterestItem {
+  image: string;
+  title: string;
+}
+
+export interface SubSubInterests {
+  [id: string]: SubSubInterestItem;
 }

@@ -13,8 +13,58 @@ $footer-color: aliceblue;
   color: #fff;
   text-align: center;
   font-weight: 900;
-  font-size: x-large;
+  font-size: large;
   flex: 0 1 auto;
+
+  span {
+    font-size: 15px;
+    font-weight: normal;
+  }
+}
+
+#page-1 {
+  .interest {
+    height: 150px;
+    width: 150px;
+    margin: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+
+    &-wrapper {
+      position: relative;
+    }
+
+    &-text {
+      background: aliceblue;
+      text-align: center;
+    }
+
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    &.selected {
+      &:before {
+        position: absolute;
+        content: " \2714";
+        font-size: xx-large;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: lightblue;
+        width: 150px;
+        height: 150px;
+        opacity: 0.8;
+        pointer-events: none;
+        border-radius: 5px;
+      }
+    }
+  }
 }
 
 .content {
@@ -34,50 +84,8 @@ $footer-color: aliceblue;
   flex-direction: column;
 }
 
-.interest {
-  height: 150px;
-  width: 150px;
-  margin: 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  overflow: hidden;
-
-  &-wrapper {
-    position: relative;
-  }
-
-  &-text {
-    background: aliceblue;
-    text-align: center;
-  }
-
-  &:hover {
-    transform: scale(1.1);
-  }
-
-  &.selected {
-    &:before {
-      position: absolute;
-      content: "";
-      //display: flex;
-      //justify-content: center;
-      //align-items: center;
-      background: lightblue;
-      width: 150px;
-      height: 150px;
-      opacity: 0.8;
-      pointer-events: none;
-      border-radius: 5px;
-    }
-  }
-}
-
 button {
-  margin: 7px 20%;
+  margin: 6px 20%;
   flex-grow: 1;
   border-radius: 20px;
   outline: none;
@@ -94,5 +102,25 @@ button {
     background: $footer-color;
     color: $dark-base-color;
     cursor: pointer;
+  }
+}
+
+#page-2 {
+  &.content {
+    display: block;
+  }
+
+  .sub-interest-item {
+    display: block;
+    margin-left: 0;
+  }
+
+  .interest-item {
+    margin: 15px 0;
+  }
+
+  .interest-header {
+    font-size: 17px;
+    font-weight: bold;
   }
 }
