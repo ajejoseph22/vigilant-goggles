@@ -9,15 +9,23 @@
 
 <!--User Interest selection content-->
 <section class="content">
-  <div style="display: none;">
-    <span>8. Your interests?</span>
-    <br />
-    <span>Select up to 6 options that apply.</span>
-  </div>
-  <div *ngFor="let item of interestsData" class="interest">
-    {{ item.title }}
+  <div class="interest-wrapper" *ngFor="let item of interestsData">
+    <div
+      [ngClass]="{
+        interest: true,
+        selected: selectedInterests.hasOwnProperty(item.id)
+      }"
+      (click)="handleClick(item.id)"
+    >
+      <div class="interest-text">
+        <img [alt]="item.title" [src]="item.image" />{{ item.title }}
+      </div>
+    </div>
   </div>
 </section>
 
 <!--User Interest selection footer-->
-<div class="footer"></div>
+<div class="footer">
+  <button id="next">Next</button>
+  <button id="back">Back</button>
+</div>

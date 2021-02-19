@@ -71,7 +71,8 @@ nz-header {
 }
 
 nz-content {
-  margin: 100px;
+  margin: 50px;
+  overflow-x: auto;
 }
 
 nz-layout {
