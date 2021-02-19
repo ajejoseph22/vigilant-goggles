@@ -9,6 +9,7 @@ import {
   interestsKey,
   interestsToDisplayKey,
   subInterestsKey,
+  subSubInterestKey,
 } from '../../shared/constants';
 
 @Component({
@@ -37,12 +38,22 @@ export class UserComponent implements OnInit {
         'sub-1': {
           title: 'sub Interest 1',
           image: 'https://picsum.photos/id/1/150/150',
-          subInterests: {},
+          subInterests: {
+            'sub-sub-1': {
+              title: 'sub sub Interest 1',
+              image: 'https://picsum.photos/id/1/150/150',
+            },
+          },
         },
         'sub-2': {
           title: 'sub Interest 2',
           image: 'https://picsum.photos/id/1/150/150',
-          subInterests: {},
+          subInterests: {
+            'sub-sub-2': {
+              title: 'sub sub Interest 2',
+              image: 'https://picsum.photos/id/1/150/150',
+            },
+          },
         },
       },
     },
@@ -120,6 +131,7 @@ export class UserComponent implements OnInit {
   public selectedInterestsToDisplay: KeyMap<true> = {};
   public selectedInterests: KeyMap<true> = {};
   public selectedSubInterests: KeyMap<true> = {};
+  public selectedSubSubInterests: KeyMap<true> = {};
   public interestsPage = 1;
   public object = Object;
 
@@ -134,6 +146,7 @@ export class UserComponent implements OnInit {
     );
     const persistedInterests = localStorage.getItem(interestsKey);
     const persistedSubInterests = localStorage.getItem(subInterestsKey);
+    const persistedSubSubInterests = localStorage.getItem(subSubInterestKey);
 
     if (persistedInterestsToDisplay) {
       this.selectedInterestsToDisplay = JSON.parse(persistedInterestsToDisplay);
@@ -145,6 +158,10 @@ export class UserComponent implements OnInit {
 
     if (persistedSubInterests) {
       this.selectedSubInterests = JSON.parse(persistedSubInterests);
+    }
+
+    if (persistedSubSubInterests) {
+      this.selectedSubSubInterests = JSON.parse(persistedSubSubInterests);
     }
 
     this.stateService.$interestPage.subscribe((page) => {
@@ -207,6 +224,20 @@ export class UserComponent implements OnInit {
     }
 
     localStorage.setItem(interestsKey, JSON.stringify(this.selectedInterests));
+  }
+
+  // todo: DRY
+  public handleOnToggleSubSubInterest(subSubInterestId): void {
+    if (this.selectedSubSubInterests[subSubInterestId]) {
+      delete this.selectedSubSubInterests[subSubInterestId];
+    } else {
+      this.selectedSubSubInterests[subSubInterestId] = true;
+    }
+
+    localStorage.setItem(
+      subSubInterestKey,
+      JSON.stringify(this.selectedSubSubInterests)
+    );
   }
 
   private incrementInterestPage(): void {

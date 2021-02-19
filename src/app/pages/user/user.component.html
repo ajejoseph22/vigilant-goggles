@@ -7,7 +7,7 @@
 
 <!--Page 1-->
 <ng-template [ngIf]="interestsPage === 1">
-  <!--User Interest introductory description-->
+  <!-- todo: User Interest introductory description-->
   <!--User Interest selection content-->
   <section [@easeIn] class="content" id="page-1">
     <div class="interest-wrapper" *ngFor="let id of object.keys(interestsData)">
@@ -31,28 +31,60 @@
 
 <ng-template [ngIf]="interestsPage === 2">
   <div id="page-2" class="content" [@easeIn]>
-    <div
-      class="interest-item"
-      *ngFor="let interestId of object.keys(selectedInterestsToDisplay)"
-    >
-      <label
-        nz-checkbox
-        class="interest-header"
-        [ngModel]="selectedInterests.hasOwnProperty(interestId)"
-        (ngModelChange)="handleOnToggleInterest(interestId)"
-        >{{ interestsData[interestId]?.title }}</label
+    <nz-collapse nzGhost>
+      <nz-collapse-panel
+        class="interest-item"
+        [nzHeader]="interestHeader"
+        *ngFor="let interestId of object.keys(selectedInterestsToDisplay)"
       >
-      <label
-        class="sub-interest-item"
-        nz-checkbox
-        *ngFor="
-          let subItemId of object.keys(interestsData[interestId]?.subInterests)
-        "
-        [ngModel]="selectedSubInterests.hasOwnProperty(subItemId)"
-        (ngModelChange)="handleOnToggleSubInterest(subItemId)"
-        >{{ interestsData[interestId].subInterests[subItemId].title }}</label
-      >
-    </div>
+        <ng-template #interestHeader>
+          <label
+            nz-checkbox
+            class="interest-header"
+            [ngModel]="selectedInterests.hasOwnProperty(interestId)"
+            (ngModelChange)="handleOnToggleInterest(interestId)"
+            >{{ interestsData[interestId]?.title }}</label
+          >
+        </ng-template>
+        <nz-collapse-panel
+          id="sub-interest-panel"
+          [nzHeader]="subInterestHeader"
+          *ngFor="
+            let subItemId of object.keys(
+              interestsData[interestId]?.subInterests
+            )
+          "
+        >
+          <ng-template #subInterestHeader>
+            <label
+              class="sub-interest-item"
+              nz-checkbox
+              [ngModel]="selectedSubInterests.hasOwnProperty(subItemId)"
+              (ngModelChange)="handleOnToggleSubInterest(subItemId)"
+              >{{
+                interestsData[interestId].subInterests[subItemId].title
+              }}</label
+            >
+          </ng-template>
+          <label
+            class="sub-sub-interest-item"
+            nz-checkbox
+            *ngFor="
+              let subSubItemId of object.keys(
+                interestsData[interestId].subInterests[subItemId].subInterests
+              )
+            "
+            [ngModel]="selectedSubSubInterests.hasOwnProperty(subSubItemId)"
+            (ngModelChange)="handleOnToggleSubSubInterest(subSubItemId)"
+            >{{
+              interestsData[interestId].subInterests[subItemId].subInterests[
+                subSubItemId
+              ].title
+            }}</label
+          >
+        </nz-collapse-panel>
+      </nz-collapse-panel>
+    </nz-collapse>
   </div>
 </ng-template>
 
