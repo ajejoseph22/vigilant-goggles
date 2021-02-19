@@ -14,7 +14,7 @@
       <div
         [ngClass]="{
           interest: true,
-          selected: selectedInterests.hasOwnProperty(id)
+          selected: selectedInterestsToDisplay.hasOwnProperty(id)
         }"
         (click)="handleClickInterest(id)"
       >
@@ -33,9 +33,15 @@
   <div id="page-2" class="content" [@easeIn]>
     <div
       class="interest-item"
-      *ngFor="let interestId of object.keys(selectedInterests)"
+      *ngFor="let interestId of object.keys(selectedInterestsToDisplay)"
     >
-      <header class="interest-header">{{ interestsData[interestId]?.title }}</header>
+      <label
+        nz-checkbox
+        class="interest-header"
+        [ngModel]="selectedInterests.hasOwnProperty(interestId)"
+        (ngModelChange)="handleOnToggleInterest(interestId)"
+        >{{ interestsData[interestId]?.title }}</label
+      >
       <label
         class="sub-interest-item"
         nz-checkbox

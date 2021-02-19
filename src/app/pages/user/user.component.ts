@@ -4,6 +4,12 @@ import { KeyMap } from '../../core/models/key-map.model';
 import { StateService } from '../../core/services/state.service';
 import { ToastrService } from 'ngx-toastr';
 import { animate, style, transition, trigger } from '@angular/animations';
+import {
+  interestPageKey,
+  interestsKey,
+  interestsToDisplayKey,
+  subInterestsKey,
+} from '../../shared/constants';
 
 @Component({
   selector: 'app-user',
@@ -111,7 +117,7 @@ export class UserComponent implements OnInit {
       subInterests: {},
     },
   };
-
+  public selectedInterestsToDisplay: KeyMap<true> = {};
   public selectedInterests: KeyMap<true> = {};
   public selectedSubInterests: KeyMap<true> = {};
   public interestsPage = 1;
@@ -123,8 +129,15 @@ export class UserComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    const persistedInterests = localStorage.getItem('interests');
-    const persistedSubInterests = localStorage.getItem('sub-interests');
+    const persistedInterestsToDisplay = localStorage.getItem(
+      interestsToDisplayKey
+    );
+    const persistedInterests = localStorage.getItem(interestsKey);
+    const persistedSubInterests = localStorage.getItem(subInterestsKey);
+
+    if (persistedInterestsToDisplay) {
+      this.selectedInterestsToDisplay = JSON.parse(persistedInterestsToDisplay);
+    }
 
     if (persistedInterests) {
       this.selectedInterests = JSON.parse(persistedInterests);
@@ -135,25 +148,27 @@ export class UserComponent implements OnInit {
     }
 
     this.stateService.$interestPage.subscribe((page) => {
-      console.log('triggered');
       this.interestsPage = page;
     });
-
-    console.log(this.interestsPage);
   }
 
   public handleClickInterest(id: string): void {
-    if (this.selectedInterests[id]) {
+    if (this.selectedInterestsToDisplay[id]) {
+      delete this.selectedInterestsToDisplay[id];
       delete this.selectedInterests[id];
     } else {
+      this.selectedInterestsToDisplay[id] = true;
       this.selectedInterests[id] = true;
     }
 
-    localStorage.setItem('interests', JSON.stringify(this.selectedInterests));
+    localStorage.setItem(
+      interestsToDisplayKey,
+      JSON.stringify(this.selectedInterestsToDisplay)
+    );
   }
 
   public handleOnClickNext(): void {
-    if (Object.keys(this.selectedInterests).length < 3) {
+    if (Object.keys(this.selectedInterestsToDisplay).length < 3) {
       this.toaster.warning('Please select at least 3 interests', 'Uh oh!');
       return;
     }
@@ -172,7 +187,6 @@ export class UserComponent implements OnInit {
   }
 
   public handleOnToggleSubInterest(subInterestId: string): void {
-    console.log('triggered');
     if (this.selectedSubInterests[subInterestId]) {
       delete this.selectedSubInterests[subInterestId];
     } else {
@@ -180,16 +194,26 @@ export class UserComponent implements OnInit {
     }
 
     localStorage.setItem(
-      'sub-interests',
+      subInterestsKey,
       JSON.stringify(this.selectedSubInterests)
     );
+  }
+
+  public handleOnToggleInterest(interestId: string): void {
+    if (this.selectedInterests[interestId]) {
+      delete this.selectedInterests[interestId];
+    } else {
+      this.selectedInterests[interestId] = true;
+    }
+
+    localStorage.setItem(interestsKey, JSON.stringify(this.selectedInterests));
   }
 
   private incrementInterestPage(): void {
     const newInterestPage = this.interestsPage + 1;
 
-    if (+localStorage.getItem('interestPage') < newInterestPage) {
-      localStorage.setItem('interestPage', newInterestPage.toString());
+    if (+localStorage.getItem(interestPageKey) < newInterestPage) {
+      localStorage.setItem(interestPageKey, newInterestPage.toString());
     }
 
     this.stateService.$interestPage.next(newInterestPage);
