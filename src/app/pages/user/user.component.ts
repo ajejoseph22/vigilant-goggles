@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { InterestItem, Interests } from '../../core/models/interest-data.model';
 import { KeyMap } from '../../core/models/key-map.model';
 import { StateService } from '../../core/services/state.service';
@@ -10,13 +10,16 @@ import {
   subInterestsKey,
   subSubInterestKey,
 } from '../../shared/constants';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss'],
 })
-export class UserComponent implements OnInit {
+export class UserComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject();
   public interestsData: Interests = {
     1: {
       title: 'Interest 1',
@@ -151,16 +154,18 @@ export class UserComponent implements OnInit {
       this.selectedSubSubInterests = JSON.parse(persistedSubSubInterests);
     }
 
-    this.stateService.$interestPage.subscribe((page) => {
-      this.interestsPage = page;
+    this.stateService.interestPage$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((page) => {
+        this.interestsPage = page;
 
-      if (this.interestsPage === 3) {
-        this.toaster.success(
-          'Congrats! We have recorded your interests!',
-          'Interests collected'
-        );
-      }
-    });
+        if (this.interestsPage === 3) {
+          this.toaster.success(
+            'Congrats! We have recorded your interests!',
+            'Interests collected'
+          );
+        }
+      });
   }
 
   public handleOnClickInterest(id: string): void {
@@ -196,7 +201,7 @@ export class UserComponent implements OnInit {
     }
 
     const newInterestPage = this.interestsPage - 1;
-    this.stateService.$interestPage.next(newInterestPage);
+    this.stateService.interestPage$.next(newInterestPage);
   }
 
   public handleOnToggleInterest(interestId: string): void {
@@ -256,6 +261,11 @@ export class UserComponent implements OnInit {
     });
   }
 
+  public ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.unsubscribe();
+  }
+
   private incrementInterestPage(): void {
     const newInterestPage = this.interestsPage + 1;
 
@@ -263,6 +273,6 @@ export class UserComponent implements OnInit {
       localStorage.setItem(interestPageKey, newInterestPage.toString());
     }
 
-    this.stateService.$interestPage.next(newInterestPage);
+    this.stateService.interestPage$.next(newInterestPage);
   }
 }

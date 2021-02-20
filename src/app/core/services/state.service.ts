@@ -6,13 +6,13 @@ import { interestPageKey } from '../../shared/constants';
   providedIn: 'root',
 })
 export class StateService {
-  public $interestPage = new ReplaySubject<number>(1);
+  public interestPage$ = new ReplaySubject<number>(1);
 
   constructor() {
     const interestPage = localStorage.getItem(interestPageKey);
 
     if (interestPage) {
-      this.$interestPage.next(+interestPage);
+      this.interestPage$.next(+interestPage);
     }
   }
 }
