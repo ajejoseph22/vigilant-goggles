@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Interests } from '../../core/models/interest-data.model';
+import { InterestItem, Interests } from '../../core/models/interest-data.model';
 import { KeyMap } from '../../core/models/key-map.model';
 import { StateService } from '../../core/services/state.service';
 import { ToastrService } from 'ngx-toastr';
-import { animate, style, transition, trigger } from '@angular/animations';
 import {
   interestPageKey,
   interestsKey,
@@ -117,9 +116,9 @@ export class UserComponent implements OnInit {
     },
   };
   public selectedInterestsToDisplay: KeyMap<true> = {};
-  public selectedInterests: KeyMap<true> = {};
-  public selectedSubInterests: KeyMap<true> = {};
-  public selectedSubSubInterests: KeyMap<true> = {};
+  public selectedInterests: KeyMap<InterestItem> = {};
+  public selectedSubInterests: KeyMap<InterestItem> = {};
+  public selectedSubSubInterests: KeyMap<InterestItem> = {};
   public interestsPage = 1;
   public object = Object;
 
@@ -154,22 +153,31 @@ export class UserComponent implements OnInit {
 
     this.stateService.$interestPage.subscribe((page) => {
       this.interestsPage = page;
+
+      if (this.interestsPage === 3) {
+        this.toaster.success(
+          'Congrats! We have recorded your interests!',
+          'Interests collected'
+        );
+      }
     });
   }
 
-  public handleClickInterest(id: string): void {
+  public handleOnClickInterest(id: string): void {
     if (this.selectedInterestsToDisplay[id]) {
       delete this.selectedInterestsToDisplay[id];
       delete this.selectedInterests[id];
     } else {
       this.selectedInterestsToDisplay[id] = true;
-      this.selectedInterests[id] = true;
+      const { subInterests, ...selectedItem } = this.interestsData[id];
+      this.selectedInterests[id] = selectedItem;
     }
 
     localStorage.setItem(
       interestsToDisplayKey,
       JSON.stringify(this.selectedInterestsToDisplay)
     );
+    localStorage.setItem(interestsKey, JSON.stringify(this.selectedInterests));
   }
 
   public handleOnClickNext(): void {
@@ -191,11 +199,17 @@ export class UserComponent implements OnInit {
     this.stateService.$interestPage.next(newInterestPage);
   }
 
-  public handleOnToggleSubInterest(subInterestId: string): void {
+  public handleOnToggleSubInterest(
+    interestId: string,
+    subInterestId: string
+  ): void {
     if (this.selectedSubInterests[subInterestId]) {
       delete this.selectedSubInterests[subInterestId];
     } else {
-      this.selectedSubInterests[subInterestId] = true;
+      const { subInterests, ...selectedItem } = this.interestsData[
+        interestId
+      ].subInterests[subInterestId];
+      this.selectedSubInterests[subInterestId] = selectedItem;
     }
 
     localStorage.setItem(
@@ -208,24 +222,41 @@ export class UserComponent implements OnInit {
     if (this.selectedInterests[interestId]) {
       delete this.selectedInterests[interestId];
     } else {
-      this.selectedInterests[interestId] = true;
+      const { subInterests, ...selectedItem } = this.interestsData[interestId];
+      this.selectedInterests[interestId] = selectedItem;
     }
 
     localStorage.setItem(interestsKey, JSON.stringify(this.selectedInterests));
   }
 
   // todo: DRY
-  public handleOnToggleSubSubInterest(subSubInterestId): void {
+  public handleOnToggleSubSubInterest(
+    interestId: string,
+    subInterestId: string,
+    subSubInterestId: string
+  ): void {
     if (this.selectedSubSubInterests[subSubInterestId]) {
       delete this.selectedSubSubInterests[subSubInterestId];
     } else {
-      this.selectedSubSubInterests[subSubInterestId] = true;
+      console.log('SubInterest', this.interestsData[interestId][subInterestId]);
+
+      this.selectedSubSubInterests[subSubInterestId] = this.interestsData[
+        interestId
+      ].subInterests[subInterestId].subInterests[subSubInterestId];
     }
 
     localStorage.setItem(
       subSubInterestKey,
       JSON.stringify(this.selectedSubSubInterests)
     );
+  }
+
+  public logData(): void {
+    console.log('USER INTERESTS: ', {
+      ...this.selectedInterests,
+      ...this.selectedSubInterests,
+      ...this.selectedSubSubInterests,
+    });
   }
 
   private incrementInterestPage(): void {

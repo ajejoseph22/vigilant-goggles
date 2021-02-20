@@ -9,14 +9,14 @@
 <ng-template [ngIf]="interestsPage === 1">
   <!-- todo: User Interest introductory description-->
   <!--User Interest selection content-->
-  <section  class="content" id="page-1">
+  <section class="content" id="page-1">
     <div class="interest-wrapper" *ngFor="let id of object.keys(interestsData)">
       <div
         [ngClass]="{
           interest: true,
           selected: selectedInterestsToDisplay.hasOwnProperty(id)
         }"
-        (click)="handleClickInterest(id)"
+        (click)="handleOnClickInterest(id)"
       >
         <div class="interest-text">
           <img
@@ -31,7 +31,7 @@
 
 <!--Page 2-->
 <ng-template [ngIf]="interestsPage === 2">
-  <div id="page-2" class="content" >
+  <section id="page-2" class="content">
     <nz-collapse nzGhost>
       <nz-collapse-panel
         class="interest-item"
@@ -51,7 +51,7 @@
           id="sub-interest-panel"
           [nzHeader]="subInterestHeader"
           *ngFor="
-            let subItemId of object.keys(
+            let subInterestId of object.keys(
               interestsData[interestId]?.subInterests
             )
           "
@@ -60,10 +60,12 @@
             <label
               class="sub-interest-item"
               nz-checkbox
-              [ngModel]="selectedSubInterests.hasOwnProperty(subItemId)"
-              (ngModelChange)="handleOnToggleSubInterest(subItemId)"
+              [ngModel]="selectedSubInterests.hasOwnProperty(subInterestId)"
+              (ngModelChange)="
+                handleOnToggleSubInterest(interestId, subInterestId)
+              "
               >{{
-                interestsData[interestId].subInterests[subItemId].title
+                interestsData[interestId].subInterests[subInterestId].title
               }}</label
             >
           </ng-template>
@@ -71,29 +73,36 @@
             class="sub-sub-interest-item"
             nz-checkbox
             *ngFor="
-              let subSubItemId of object.keys(
-                interestsData[interestId].subInterests[subItemId].subInterests
+              let subSubInterestId of object.keys(
+                interestsData[interestId].subInterests[subInterestId]
+                  .subInterests
               )
             "
-            [ngModel]="selectedSubSubInterests.hasOwnProperty(subSubItemId)"
-            (ngModelChange)="handleOnToggleSubSubInterest(subSubItemId)"
+            [ngModel]="selectedSubSubInterests.hasOwnProperty(subSubInterestId)"
+            (ngModelChange)="
+              handleOnToggleSubSubInterest(
+                interestId,
+                subInterestId,
+                subSubInterestId
+              )
+            "
             >{{
-              interestsData[interestId].subInterests[subItemId].subInterests[
-                subSubItemId
-              ].title
+              interestsData[interestId].subInterests[subInterestId]
+                .subInterests[subSubInterestId].title
             }}</label
           >
         </nz-collapse-panel>
       </nz-collapse-panel>
     </nz-collapse>
-  </div>
+  </section>
 </ng-template>
 
 <!--Page 3 (display)-->
 <ng-template [ngIf]="interestsPage === 3">
-  <div class="content">
-    Open the console to view the user's data
-  </div>
+  <section id="page-3" class="content">
+    <button (click)="logData()" id="log-btn">Log data</button>
+    <p>Click the button and open the console to view the user's data</p>
+  </section>
 </ng-template>
 
 <!--User Interest selection footer-->

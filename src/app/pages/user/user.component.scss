@@ -82,26 +82,26 @@ $footer-color: aliceblue;
   flex: 0 0 100px;
   display: flex;
   flex-direction: column;
-}
 
-button {
-  margin: 6px 20%;
-  flex-grow: 1;
-  border-radius: 20px;
-  outline: none;
+  button {
+    margin: 6px 20%;
+    flex-grow: 1;
+    border-radius: 20px;
+    outline: none;
 
-  &#next {
-    border: none;
-    background: $dark-base-color;
-    color: #fff;
-    cursor: pointer;
-  }
+    &#next {
+      border: none;
+      background: $dark-base-color;
+      color: #fff;
+      cursor: pointer;
+    }
 
-  &#back {
-    border: 1px solid $dark-base-color;
-    background: $footer-color;
-    color: $dark-base-color;
-    cursor: pointer;
+    &#back {
+      border: 1px solid $dark-base-color;
+      background: $footer-color;
+      color: $dark-base-color;
+      cursor: pointer;
+    }
   }
 }
 
@@ -133,5 +133,22 @@ button {
 
   .sub-sub-interest-item {
     margin-left: 40px;
+  }
+}
+
+#page-3 {
+  &.content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #log-btn {
+    width: 100px;
+    padding: 10px;
+    color: #fff;
+    background: $dark-base-color;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
   }
 }
