@@ -151,3 +151,10 @@ $footer-color: aliceblue;
     cursor: pointer;
   }
 }
+
+.page-description {
+  text-align: center;
+  font-weight: bold;
+  color: $dark-base-color;
+  margin: 10px;
+}

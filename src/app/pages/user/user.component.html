@@ -8,6 +8,7 @@
 <!--Page 1-->
 <ng-template [ngIf]="interestsPage === 1">
   <!-- todo: User Interest introductory description-->
+  <p class="page-description">Your Interests</p>
   <!--User Interest selection content-->
   <section class="content" id="page-1">
     <div class="interest-wrapper" *ngFor="let id of object.keys(interestsData)">
@@ -31,6 +32,7 @@
 
 <!--Page 2-->
 <ng-template [ngIf]="interestsPage === 2">
+  <p class="page-description">Give us a little more detail 😊</p>
   <section id="page-2" class="content">
     <nz-collapse nzGhost>
       <nz-collapse-panel
