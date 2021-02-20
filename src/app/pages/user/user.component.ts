@@ -199,6 +199,17 @@ export class UserComponent implements OnInit {
     this.stateService.$interestPage.next(newInterestPage);
   }
 
+  public handleOnToggleInterest(interestId: string): void {
+    if (this.selectedInterests[interestId]) {
+      delete this.selectedInterests[interestId];
+    } else {
+      const { subInterests, ...selectedItem } = this.interestsData[interestId];
+      this.selectedInterests[interestId] = selectedItem;
+    }
+
+    localStorage.setItem(interestsKey, JSON.stringify(this.selectedInterests));
+  }
+
   public handleOnToggleSubInterest(
     interestId: string,
     subInterestId: string
@@ -218,18 +229,6 @@ export class UserComponent implements OnInit {
     );
   }
 
-  public handleOnToggleInterest(interestId: string): void {
-    if (this.selectedInterests[interestId]) {
-      delete this.selectedInterests[interestId];
-    } else {
-      const { subInterests, ...selectedItem } = this.interestsData[interestId];
-      this.selectedInterests[interestId] = selectedItem;
-    }
-
-    localStorage.setItem(interestsKey, JSON.stringify(this.selectedInterests));
-  }
-
-  // todo: DRY
   public handleOnToggleSubSubInterest(
     interestId: string,
     subInterestId: string,
@@ -238,8 +237,6 @@ export class UserComponent implements OnInit {
     if (this.selectedSubSubInterests[subSubInterestId]) {
       delete this.selectedSubSubInterests[subSubInterestId];
     } else {
-      console.log('SubInterest', this.interestsData[interestId][subInterestId]);
-
       this.selectedSubSubInterests[subSubInterestId] = this.interestsData[
         interestId
       ].subInterests[subInterestId].subInterests[subSubInterestId];
