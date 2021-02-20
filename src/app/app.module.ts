@@ -13,7 +13,6 @@ import { IconsProviderModule } from './icons-provider.module';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { ToastrModule } from 'ngx-toastr';
-import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 
 registerLocaleData(en);
 
