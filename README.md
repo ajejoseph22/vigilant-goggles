@@ -8,8 +8,8 @@
 * Sass is used for styling
 * RxJS is used for easier transmission of events accross components
 * Tests are NOT implemented
+<hr />
 
-=====================================================================================================================================================
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.0.
 
 ## Development server
