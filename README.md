@@ -1,5 +1,14 @@
 # vigilant-goggles
 
+* The app is seperated into 2 parts - Admin and User.
+* The Admin stories are undone for now. However, all user stories are implemented.
+* Dummy data (hardcoded) is used to facilitate the user stories.
+* LocalStorage is used for persisting data. To invalidate the persisted data (to begin the user story all over again), please clear the application's LocalStorage from the browsers console's `Application tab`
+* The application leverages NG-Zorro UI component library for the navbar and sidebar.
+* Sass is used for styling
+* RxJS is used for easier transmission of events accross components
+
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.0.
 
 ## Development server
